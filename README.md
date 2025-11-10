@@ -28,4 +28,4 @@ time.sleep(0.5)
 `wait` indicates whether the main thread waits for the threads to complete their tasks.
 
 1. The first parameter does not accept functions with arguments.  
-2. If an exception is thrown within the function, loss of information may occur. Please ensure there are no errors in the function.
+2. If an exception is thrown within the function, loss of information may occur or it may manifest as `process terminated with exit code -1073740791 (0xC0000409)`. Please ensure there are no errors in the function.
