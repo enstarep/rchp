@@ -38,6 +38,7 @@ jobs:
 
     - name: Build wheel
       run: |
+        cd rchp
         pip install build wheel scikit-build-core pybind11
         python -m build --wheel
 
