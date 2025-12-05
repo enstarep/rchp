@@ -43,7 +43,7 @@ jobs:
       run: |
         pip install "scikit-build-core>=0.10.0" build wheel pybind11
         cd rchp
-        python -m build --wheel --outdir ../../dist
+        python -m build --wheel --outdir ../dist
       shell: bash
 
     - name: Save wheels
