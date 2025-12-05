@@ -48,6 +48,11 @@ jobs:
         python -m build --wheel --outdir ../dist
       shell: bash
 
+    - name: Check wheels
+      run: |
+        pip install twine
+        # vvvvv
+
     - name: Save wheels
       uses: actions/upload-artifact@v4
       with:
