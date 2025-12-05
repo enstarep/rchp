@@ -28,4 +28,11 @@ time.sleep(0.5)
 `wait` indicates whether the main thread waits for the threads to complete their tasks.
 
 1. The first parameter does not accept functions with arguments.  
-2. If an exception is thrown within the function, loss of information may occur. Please ensure there are no errors in the function.
+2. If an exception is thrown within the function, loss of information may occur or it may manifest as `process terminated with exit code -1073740791 (0xC0000409)`. Please ensure there are no errors in the function.
+
+Additionally, in the update to version 0.2.0, the `CPRVER` function has been added to retrieve version information of the CPR library. An example is provided below:
+
+```python
+import rchp
+print(rchp.CPRVER())
+```
