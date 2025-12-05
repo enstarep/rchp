@@ -28,7 +28,7 @@ jobs:
         conan profile detect --force
         
         if [ "$RUNNER_OS" == "Windows" ]; then
-          conan install . --build=missing -s compiler="msvc" -s compiler.version=193
+          conan install . --build=missing -s compiler="msvc" -s compiler.version=193 -s compiler.runtime="dynamic"
         elif [ "$RUNNER_OS" == "macOS" ]; then
           conan install . --build=missing -s compiler="apple-clang"
         else
