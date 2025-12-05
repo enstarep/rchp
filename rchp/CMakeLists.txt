@@ -14,11 +14,10 @@ if(DEFINED ENV{VCPKG_ROOT} OR DEFINED ENV{VCPKG_PATH})
 endif()
 
 find_package(pybind11 REQUIRED)
-
 find_package(cpr CONFIG REQUIRED)
 
 pybind11_add_module(crchp 
-    ${CMAKE_CURRENT_SOURCE_DIR}/rchp/crchp.cc
+    rchp/crchp.cc
 )
 
 target_include_directories(crchp PRIVATE
@@ -29,4 +28,3 @@ target_include_directories(crchp PRIVATE
 target_link_libraries(crchp PRIVATE cpr::cpr)
 
 install(TARGETS crchp DESTINATION rchp)
-
