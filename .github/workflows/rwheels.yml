@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     runs-on: ${{ matrix.os }}
 
@@ -25,6 +25,7 @@ jobs:
 
     - name: Install Conan dependencies
       run: |
+        cd rchp
         conan profile detect --force
         
         if [ "$RUNNER_OS" == "Windows" ]; then
@@ -36,8 +37,6 @@ jobs:
         fi
 
     - name: Build wheel
-      env:
-        CMAKE_PREFIX_PATH: ${{ github.workspace }}
       run: |
         pip install build wheel scikit-build-core pybind11
         python -m build --wheel
