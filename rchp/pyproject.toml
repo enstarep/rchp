@@ -13,27 +13,12 @@ requires-python = ">=3.10"
 dependencies = []
 
 [tool.scikit-build]
-minimum-version = "0.8.0"
+minimum-version = "0.10.0"
+build-dir = "_skbuild"
 
 [tool.scikit-build.wheel]
-include = [
-    "*.py",
-    "*.pyi",
-    "*.so",
-    "*.pyd",
-    "*.dll",
-    "*.dylib",
-]
-
-exclude = [
-    "*.cc",
-    "*.cpp",
-    "*.cxx",
-    "*.h",
-    "*.hpp",
-    "*.hxx",
-    "CMakeLists.txt",
-    "include/**/*",
-]
+exclude = ["*.cc", "*.cpp", "*.cxx", "*.h", "*.hpp", "include/**/*"]
+packages = ["rchp"]
 
 cmake.args = []
+
