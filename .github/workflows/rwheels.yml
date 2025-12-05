@@ -20,34 +20,36 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install vcpkg and cpr
+    - name: Install vcpkg and dependencies
       run: |
-        git clone https://github.com/Microsoft/vcpkg.git
+        git clone https://github.com/microsoft/vcpkg.git
         
         if [ "$RUNNER_OS" == "Windows" ]; then
-          .\vcpkg\bootstrap-vcpkg.bat
-          .\vcpkg\vcpkg install cpr:x64-windows
+          ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+          ./vcpkg/vcpkg install cpr:x64-windows
           echo "VCPKG_ROOT=$env:GITHUB_WORKSPACE\vcpkg" >> $env:GITHUB_ENV
-          echo "CMAKE_TOOLCHAIN_FILE=$env:GITHUB_WORKSPACE\vcpkg\scripts\buildsystems\vcpkg.cmake" >> $env:GITHUB_ENV
         elif [ "$RUNNER_OS" == "Linux" ]; then
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg install cpr
           echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
-          echo "CMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $GITHUB_ENV
         else
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg install cpr
           echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
+        fi
+
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          echo "CMAKE_TOOLCHAIN_FILE=$env:GITHUB_WORKSPACE\vcpkg\scripts\buildsystems\vcpkg.cmake" >> $env:GITHUB_ENV
+        else
           echo "CMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $GITHUB_ENV
         fi
       shell: bash
 
     - name: Build wheel
-      env:
-        CMAKE_TOOLCHAIN_FILE: ${{ env.CMAKE_TOOLCHAIN_FILE }}
       run: |
         pip install build wheel scikit-build-core pybind11
-        cd rchp && python -m build --wheel --outdir ../dist
+        cd rchp
+        CMAKE_ARGS="-DCMAKE_TOOLCHAIN_FILE=${{ env.CMAKE_TOOLCHAIN_FILE }}" python -m build --wheel --outdir ../dist
       
     - name: Save wheels
       uses: actions/upload-artifact@v4
