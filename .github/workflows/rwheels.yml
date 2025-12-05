@@ -49,6 +49,7 @@ jobs:
     - name: Check wheels
       run: |
         pip install twine
+        cd ..
         twine check dist/*
 
     - name: Save wheels
