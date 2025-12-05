@@ -1,0 +1,24 @@
+[build-system]
+requires = ["scikit-build-core>=0.8.0", "pybind11", "wheel"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "rchp"
+version = "0.2.0"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "enstarep", email = "enstarep@rncyk.org"}]
+requires-python = ">=3.10"
+
+dependencies = []
+
+[tool.scikit-build.packages]
+find = {where = ["."]}
+
+[tool.scikit-build]
+minimum-version = "0.8.0"
+cmake.define.CMAKE_PREFIX_PATH = {env = "CMAKE_PREFIX_PATH"}
+cmake.define.BUILD_TESTING = false
+
+[tool.scikit-build.module-directory]
+rchp = "rchp"
