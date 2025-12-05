@@ -49,7 +49,15 @@ jobs:
       run: |
         pip install build wheel scikit-build-core pybind11
         cd rchp
-        CMAKE_ARGS="-DCMAKE_TOOLCHAIN_FILE=${{ env.CMAKE_TOOLCHAIN_FILE }}" python -m build --wheel --outdir ../dist
+        
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          $env:CMAKE_ARGS="-DCMAKE_TOOLCHAIN_FILE=${{ env.CMAKE_TOOLCHAIN_FILE }}"
+          python -m build --wheel --outdir ../dist
+        else
+          export CMAKE_ARGS="-DCMAKE_TOOLCHAIN_FILE=${{ env.CMAKE_TOOLCHAIN_FILE }}"
+          python -m build --wheel --outdir ../dist
+        fi
+      shell: bash
       
     - name: Save wheels
       uses: actions/upload-artifact@v4
