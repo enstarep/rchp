@@ -12,13 +12,6 @@ requires-python = ">=3.10"
 
 dependencies = []
 
-[tool.scikit-build.packages]
-find = {where = ["."]}
-
 [tool.scikit-build]
 minimum-version = "0.8.0"
-cmake.define.CMAKE_PREFIX_PATH = {env = "CMAKE_PREFIX_PATH"}
-cmake.define.BUILD_TESTING = false
-
-[tool.scikit-build.module-directory]
-rchp = "rchp"
+cmake.args = ["-DBUILD_TESTING=OFF"]
