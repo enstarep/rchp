@@ -15,4 +15,25 @@ dependencies = []
 [tool.scikit-build]
 minimum-version = "0.8.0"
 
+[tool.scikit-build.wheel]
+include = [
+    "*.py",
+    "*.pyi",
+    "*.so",
+    "*.pyd",
+    "*.dll",
+    "*.dylib",
+]
+
+exclude = [
+    "*.cc",
+    "*.cpp",
+    "*.cxx",
+    "*.h",
+    "*.hpp",
+    "*.hxx",
+    "CMakeLists.txt",
+    "include/**/*",
+]
+
 cmake.args = []
