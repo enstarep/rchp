@@ -18,7 +18,7 @@ find_package(pybind11 REQUIRED)
 find_package(cpr CONFIG REQUIRED)
 
 pybind11_add_module(crchp 
-    rchp/crchp.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/rchp/crchp.cc
 )
 
 target_include_directories(crchp PRIVATE
@@ -29,3 +29,4 @@ target_include_directories(crchp PRIVATE
 target_link_libraries(crchp PRIVATE cpr::cpr)
 
 install(TARGETS crchp DESTINATION rchp)
+
