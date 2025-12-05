@@ -4,6 +4,3 @@ cpr/1.12.0
 [generators]
 CMakeDeps
 CMakeToolchain
-
-[settings]
-compiler.cppstd=20
