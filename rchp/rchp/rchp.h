@@ -1,9 +1,10 @@
 #ifndef RCHP_H
 #define RCHP_H
 
-#include <exception>
+#pragma pack(push, 1)
+
 #include <string>
-#include <utility>
+#include <exception>
 
 class rchp_error : public std::exception {
 public:
