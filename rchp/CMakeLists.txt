@@ -10,7 +10,8 @@ if(DEFINED ENV{VCPKG_ROOT})
 endif()
 
 find_package(pybind11 REQUIRED)
-find_package(cpr REQUIRED)
+
+find_package(cpr CONFIG REQUIRED)
 
 pybind11_add_module(crchp 
     rchp/crchp.cc
