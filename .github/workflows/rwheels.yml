@@ -35,6 +35,7 @@ jobs:
         else
           conan install . --build=missing -s compiler="gcc"
         fi
+      shell: bash
 
     - name: Build wheel
       run: |
