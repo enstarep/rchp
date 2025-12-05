@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.10", "3.11", "3.12", "3.13","3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     runs-on: ${{ matrix.os }}
 
@@ -20,28 +20,35 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install vcpkg and dependencies (Windows)
-      if: runner.os == 'Windows'
+    - name: Install vcpkg and cpr
       run: |
         git clone https://github.com/Microsoft/vcpkg.git
-        .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg install cpr:x64-windows
-        echo "VCPKG_ROOT=$env:GITHUB_WORKSPACE\vcpkg" >> $env:GITHUB_ENV
-
-    - name: Install vcpkg and dependencies (Linux/macOS)
-      if: runner.os != 'Windows'
-      run: |
-        git clone https://github.com/Microsoft/vcpkg.git
-        ./vcpkg/bootstrap-vcpkg.sh
-        ./vcpkg/vcpkg install cpr
-        echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
+        
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          .\vcpkg\bootstrap-vcpkg.bat
+          .\vcpkg\vcpkg install cpr:x64-windows
+          echo "VCPKG_ROOT=$env:GITHUB_WORKSPACE\vcpkg" >> $env:GITHUB_ENV
+          echo "CMAKE_TOOLCHAIN_FILE=$env:GITHUB_WORKSPACE\vcpkg\scripts\buildsystems\vcpkg.cmake" >> $env:GITHUB_ENV
+        elif [ "$RUNNER_OS" == "Linux" ]; then
+          ./vcpkg/bootstrap-vcpkg.sh
+          ./vcpkg/vcpkg install cpr
+          echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
+          echo "CMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $GITHUB_ENV
+        else
+          ./vcpkg/bootstrap-vcpkg.sh
+          ./vcpkg/vcpkg install cpr
+          echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
+          echo "CMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $GITHUB_ENV
+        fi
+      shell: bash
 
     - name: Build wheel
+      env:
+        CMAKE_TOOLCHAIN_FILE: ${{ env.CMAKE_TOOLCHAIN_FILE }}
       run: |
-        cd rchp
         pip install build wheel scikit-build-core pybind11
-        python -m build --wheel
-
+        cd rchp && python -m build --wheel --outdir ../dist
+      
     - name: Save wheels
       uses: actions/upload-artifact@v4
       with:
