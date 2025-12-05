@@ -20,6 +20,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Install Windows build tools
+      if: runner.os == 'Windows'
+      run: |
+        choco install nasm -y
+        choco install strawberryperl -y
+
     - name: Install Conan
       run: pip install conan
 
