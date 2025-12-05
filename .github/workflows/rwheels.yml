@@ -41,17 +41,15 @@ jobs:
 
     - name: Build wheel
       run: |
-        pip install build wheel scikit-build-core pybind11
-        
-        cd rchp
-        
-        python -m build --wheel --outdir ../dist
+        pip install "scikit-build-core>=0.10.0" build wheel pybind11
+        cd rchp/rchp
+        python -m build --wheel --outdir ../../dist
       shell: bash
 
     - name: Check wheels
       run: |
         pip install twine
-        # vvvvv
+        twine check dist/*
 
     - name: Save wheels
       uses: actions/upload-artifact@v4
