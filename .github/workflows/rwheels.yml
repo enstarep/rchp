@@ -55,7 +55,7 @@ jobs:
         for wheel in *.whl; do
           if [[ "$wheel" == *linux_x86_64.whl ]]; then
             echo "Repair $wheel"
-            auditwheel repair "$wheel" --plat manylinux_2_28_x86_64 -w .
+            auditwheel repair "$wheel" --plat manylinux_2_31_x86_64 -w .
             rm "$wheel"
           fi
         done
@@ -66,4 +66,4 @@ jobs:
       with:
         name: wheels-${{ matrix.os }}-py${{ matrix.python-version }}
         path: dist/*.whl
-        retention-days: 7
+        retention-days: 1
