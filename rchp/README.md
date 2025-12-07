@@ -28,7 +28,22 @@ time.sleep(0.5)
 `wait` indicates whether the main thread waits for the threads to complete their tasks.
 
 1. The first parameter does not accept functions with arguments.  
-2. If an exception is thrown within the function, loss of information may occur or it may manifest as `process terminated with exit code -1073740791 (0xC0000409)`. Please ensure there are no errors in the function.
+2. In the 0.2.1 update, exception handling has been modified to properly capture exceptions thrown within functions. An example is provided below:
+
+```python
+import rchp
+def task():
+    raise RuntimeError("Error")
+rchp.parallel(func=task,worker=1,wait=True)
+
+# Like this:
+# 
+# terminate called after throwing an instance of 'rchp_error'
+#   what():  Python exception in worker 0: RuntimeError: Error
+# 
+# At:
+#   test.py(3): task
+```
 
 Additionally, in the update to version 0.2.0, the `CPRVER` function has been added to retrieve version information of the CPR library. An example is provided below:
 
