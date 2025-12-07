@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "rchp"
-version = "0.2.0"
+version = "0.2.1"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "enstarep", email = "enstarep@rncyk.org"}]
@@ -21,4 +21,5 @@ exclude = ["*.cc", "*.cpp", "*.cxx", "*.h", "*.hpp", "include/**/*"]
 packages = ["rchp"]
 
 cmake.args = []
+
 
