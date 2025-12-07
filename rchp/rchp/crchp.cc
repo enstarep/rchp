@@ -127,22 +127,24 @@ private:
         catch (const pb::error_already_set& e) {
             std::string error;
             if (PyErr_Occurred()) {
-                PyObject *type, *value, *trace;
-                PyErr_Fetch(&type, &value, &trace);
+                PyObject *type, *value, *traceback;
+                PyErr_Fetch(&type, &value, &traceback);
 
                 if (value) {
                     pb::handle h(value);
-                    error = pb::str(h);
+                    pb::str py_str = pb::repr(h);
+                    error = pb::cast<std::string>(py_str);
                 } else if (type) {
                     pb::handle h(type);
-                    error = pb::str(h);
+                    pb::str py_str = pb::repr(h);
+                    error = pb::cast<std::string>(py_str);
                 } else {
                     error = "Unknown Python error";
                 }
 
-                PyErr_Restore(type, value, trace);
+                PyErr_Restore(type, value, traceback);
             } else {
-                error = "Python error_already_set but no active exception";
+                error = e.what();
             }
 
             PyGILState_Release(state);
@@ -282,7 +284,7 @@ void parallel(pb::function func, size_t count, bool wait = false) {
     catch (const rchp_error& e) {
         std::lock_guard<std::mutex> lock(store_mtx);
         store.clear();
-        throw;
+        throw rchp_error(e.what());
     }
     catch (const std::exception& e) {
         std::lock_guard<std::mutex> lock(store_mtx);
