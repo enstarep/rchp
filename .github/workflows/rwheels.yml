@@ -55,7 +55,7 @@ jobs:
         for wheel in *.whl; do
           if [[ "$wheel" == *linux_x86_64.whl ]]; then
             echo "Repair $wheel"
-            auditwheel repair "$wheel" --plat manylinux2014_x86_64 -w .
+            auditwheel repair "$wheel" --plat manylinux_2_24_x86_64 -w .
             rm "$wheel"
           fi
         done
