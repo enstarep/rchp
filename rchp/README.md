@@ -45,9 +45,12 @@ rchp.parallel(func=task,worker=1,wait=True)
 #   test.py(3): task
 ```
 
+3. If you still see `process terminated with exit code -1073740791 (0xC0000409)` when an exception is thrown in the function, there is nothing more we can do. Please check every possible location in the function that could cause an exception to be thrown.
+
 Additionally, in the update to version 0.2.0, the `CPRVER` function has been added to retrieve version information of the CPR library. An example is provided below:
 
 ```python
 import rchp
 print(rchp.CPRVER())
 ```
+
