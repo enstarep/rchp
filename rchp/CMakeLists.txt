@@ -20,6 +20,10 @@ pybind11_add_module(crchp
     rchp/crchp.cc
 )
 
+pybind11_add_module(ets 
+    ets.cc
+)
+
 target_include_directories(crchp PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/rchp
     ${CMAKE_CURRENT_SOURCE_DIR}/rchp/include
@@ -27,4 +31,9 @@ target_include_directories(crchp PRIVATE
 
 target_link_libraries(crchp PRIVATE cpr::cpr)
 
-install(TARGETS crchp DESTINATION rchp)
+target_include_directories(ets PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/rchp
+    ${CMAKE_CURRENT_SOURCE_DIR}/rchp/include
+)
+
+install(TARGETS crchp ets DESTINATION rchp)
